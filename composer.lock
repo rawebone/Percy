@@ -4,8 +4,10 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "df09581abf1b31dd13ebbbd4448efff7",
-    "packages": [],
+    "hash": "d5d868cdcd710baefe0f1b250b4374ef",
+    "packages": [
+
+    ],
     "packages-dev": [
         {
             "name": "ocramius/instantiator",
@@ -969,10 +971,18 @@
             "time": "2014-08-31 03:22:04"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": [
+
+    ],
     "prefer-stable": false,
-    "platform": [],
-    "platform-dev": []
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
 }

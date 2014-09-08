@@ -39,20 +39,36 @@ interface DataAdapter
 	 * Runs an insert on the database.
 	 *
 	 * @param string $table
-	 * @param object $model
+	 * @param Model $model
+     * @throws Exceptions\WriteException
+     * @throws Exceptions\ValidationException
 	 * @return void
 	 */
-	function insert($table, $model);
+	function insert($table, Model $model);
 
 	/**
-	 * Runs an update on the database.
+	 * Runs an update on the database. Any additional parameters
+     * are bound to the prepared statement.
 	 *
 	 * @param string $table
-	 * @param object $object
+	 * @param Model $model
 	 * @param string $where
+     * @throws Exceptions\WriteException
+     * @throws Exceptions\ValidationException
 	 * @return void
 	 */
-	function update($table, $object, $where);
+	function update($table, Model $model, $where);
+
+    /**
+     * Runs a deletion on the database. Any additional parameters
+     * are bound to the prepared statement.
+     *
+     * @param string $table
+     * @param string $where
+     * @throws Exceptions\WriteException
+     * @return void
+     */
+    function delete($table, $where);
 
 	/**
 	 * Returns the format string for datetime().
