@@ -87,6 +87,11 @@ class Percy
         return $set[0];
     }
 
+    public static function last(array $set)
+    {
+        return $set[count($set) - 1];
+    }
+
     public static function snake($value)
     {
         $replace = '$1_$2';

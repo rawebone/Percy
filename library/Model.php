@@ -139,12 +139,34 @@ class Model
         return call_user_func_array(array("Percy", "findByWhere"), $params);
     }
 
+    public static function findFirstWhere($clause)
+    {
+        return Percy::first(call_user_func_array("static", "findWhere"), func_get_args());
+    }
+
+    public static function findLastWhere($clause)
+    {
+        return Percy::last(call_user_func_array("static", "findWhere"), func_get_args());
+    }
+
     public static function __callStatic($name, $args)
     {
         if (preg_match("/^findBy([[:alnum:]]+)$/", $name, $match)) {
             $model = new static();
 
             return Percy::findByField(get_called_class(), $model->_table(), Percy::snake($match[1]), $args[0]);
+        }
+
+        if (preg_match("/^findFirstBy([[:alnum:]]+)$/", $name, $match)) {
+            $model = new static();
+
+            return Percy::first(Percy::findByField(get_called_class(), $model->_table(), Percy::snake($match[1]), $args[0]));
+        }
+
+        if (preg_match("/^findLastBy([[:alnum:]]+)$/", $name, $match)) {
+            $model = new static();
+
+            return Percy::last(Percy::findByField(get_called_class(), $model->_table(), Percy::snake($match[1]), $args[0]));
         }
 
         throw new ModelException("Bad method call to $name");
