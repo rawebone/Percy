@@ -14,6 +14,11 @@ function last(array $set)
 	return $count > 0 ? $set[$count - 1] : null;
 }
 
+function all(array $set)
+{
+	return $set;
+}
+
 function snake($value)
 {
 	$replace = '$1_$2';

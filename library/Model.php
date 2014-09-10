@@ -127,47 +127,30 @@ class Model
 		return Percy::findById(get_called_class(), $model->_table(), $model->_pk(), $id);
 	}
 
-    public static function findWhere($clause)
-    {
-        $model = new static();
+	public static function findRaw($query)
+	{
+		$model = new static();
+		$params = array_merge(array(get_called_class()), array_slice(func_get_args(), 1));
 
-        $params = array_merge(array(
-            get_called_class(),
-            $model->_table(),
-        ), func_get_args());
-
-        return call_user_func_array(array("Percy", "findByWhere"), $params);
-    }
-
-    public static function findFirstWhere($clause)
-    {
-        return first(call_user_func_array("static", "findWhere"), func_get_args());
-    }
-
-    public static function findLastWhere($clause)
-    {
-        return last(call_user_func_array("static", "findWhere"), func_get_args());
-    }
+		return call_user_func_array(array("Percy", "findByRawQuery"), $params);
+	}
 
     public static function __callStatic($name, $args)
     {
-        if (preg_match("/^findBy([[:alnum:]]+)$/", $name, $match)) {
-            $model = new static();
+		$model  = new static();
 
-            return Percy::findByField(get_called_class(), $model->_table(), snake($match[1]), $args[0]);
+        if (preg_match("/^find(First|Last|)By([[:alnum:]]+)$/", $name, $match)) {
+			$filter = $match[1] ? strtolower($match[1])  : "all";
+
+            return Percy::findByField(get_called_class(), $filter, $model->_table(), snake($match[2]), $args[0]);
         }
 
-        if (preg_match("/^findFirstBy([[:alnum:]]+)$/", $name, $match)) {
-            $model = new static();
+		if (preg_match("/^find(First|Last|)Where$/", $name, $match)) {
+			$filter = $match[1] ? strtolower($match[1])  : "all";
+			$params = array_merge(array(get_called_class(), $filter, $model->_table()), $args);
 
-            return first(Percy::findByField(get_called_class(), $model->_table(), snake($match[1]), $args[0]));
-        }
-
-        if (preg_match("/^findLastBy([[:alnum:]]+)$/", $name, $match)) {
-            $model = new static();
-
-            return last(Percy::findByField(get_called_class(), $model->_table(), snake($match[1]), $args[0]));
-        }
+			return call_user_func_array(array("Percy", "findByWhere"), $params);
+		}
 
         throw new ModelException("Bad method call to $name");
     }

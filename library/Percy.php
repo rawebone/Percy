@@ -69,17 +69,17 @@ class Percy
         return first(self::$adapter->select($model, "SELECT * FROM $table WHERE $pkField = ?", $pk));
     }
 
-    public static function findByField($model, $table, $field, $value)
+    public static function findByField($model, $filter, $table, $field, $value)
     {
-        return self::$adapter->select($model, "SELECT * FROM $table WHERE $field = ?", $value);
+        return $filter(self::$adapter->select($model, "SELECT * FROM $table WHERE $field = ?", $value));
     }
 
-    public static function findByWhere($model, $table, $where)
+    public static function findByWhere($model, $filter, $table, $where)
     {
         $query  = "SELECT * FROM $table WHERE $where";
         $params = array_merge(array($model, $query), array_slice(func_get_args(), 3));
 
-        return call_user_func_array(array(self::$adapter, "select"), $params);
+        return $filter(call_user_func_array(array(self::$adapter, "select"), $params));
     }
 
 	public static function findByRawQuery($model, $query)
