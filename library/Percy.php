@@ -66,7 +66,7 @@ class Percy
 
     public static function findById($model, $table, $pkField, $pk)
     {
-        return static::first(self::$adapter->select($model, "SELECT * FROM $table WHERE $pkField = ?", $pk));
+        return first(self::$adapter->select($model, "SELECT * FROM $table WHERE $pkField = ?", $pk));
     }
 
     public static function findByField($model, $table, $field, $value)
@@ -80,21 +80,5 @@ class Percy
         $params = array_merge(array($model, $query), array_slice(func_get_args(), 3));
 
         return call_user_func_array(array(self::$adapter, "select"), $params);
-    }
-
-    public static function first(array $set)
-    {
-        return $set[0];
-    }
-
-    public static function last(array $set)
-    {
-        return $set[count($set) - 1];
-    }
-
-    public static function snake($value)
-    {
-        $replace = '$1_$2';
-        return (ctype_lower($value) ? $value : strtolower(preg_replace('/(.)([A-Z])/', $replace, $value)));
     }
 }
