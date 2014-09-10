@@ -81,4 +81,11 @@ class Percy
 
         return call_user_func_array(array(self::$adapter, "select"), $params);
     }
+
+	public static function findByRawQuery($model, $query)
+	{
+		$params = array_slice(func_get_args(), 2);
+
+		return call_user_func_array(array(self::$adapter, "select"), $params);
+	}
 }
