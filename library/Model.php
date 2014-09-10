@@ -11,7 +11,7 @@ class Model
 
 	public function __construct($fresh = true)
 	{
-		$this->shadow = $this->makeShadow();
+		$this->makeShadow();
         $this->fresh  = $fresh;
 	}
 
